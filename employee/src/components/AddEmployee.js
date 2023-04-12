@@ -1,5 +1,7 @@
 import axios from "axios";
 import React, { useState } from "react";
+import 'react-phone-number-input/style.css'
+import PhoneInput from 'react-phone-number-input'
 
 
 // code Adding an Employee
@@ -45,7 +47,7 @@ function AddEmployee() {
 function EmployeeForm() {
   const [name, setName] = useState("");
   const [surname, setSurname] = useState("");
-  const [phone, setPhone] = useState("");
+  const [value, setValue] = useState()
   const [email, setEmail] = useState("");
   const [nationalId, setNationalId] = useState("");
   const [department, setDepartment] = useState("");
@@ -61,7 +63,7 @@ function EmployeeForm() {
       data: {
         name: name,
         surname: surname,
-        phone: phone,
+        phone: value,
         email: email,
         nationalId: nationalId,
         department: department,
@@ -78,6 +80,7 @@ function EmployeeForm() {
         console.error(error);
       });
   };
+ 
 
   return (
     <>
@@ -108,17 +111,23 @@ function EmployeeForm() {
             onChange={(event) => setSurname(event.target.value)}
           />
         </div>
-        <div>
+
+        <div>    
+      
+
           <label htmlFor="phone">
             Phone:
             <br />
           </label>
-          <input
-            id="phone"
-            type="phone"
-            value={phone}
-            onChange={(event) => setPhone(event.target.value)}
-          />
+     <PhoneInput
+     defaultCountry="ZW"
+      placeholder=""
+      value={value}
+      id="phone"
+      type="phone"      
+      onChange={setValue}
+      
+      />
         </div>
         <div>
           <label htmlFor="email">

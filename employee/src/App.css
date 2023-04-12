@@ -247,7 +247,9 @@ img {
 #email,
 #phone,
 #surname,
-#name {
+#nationalId,
+#name 
+{
   padding-top: 25px;
   padding-left: 20px;
   width: 374px;
@@ -263,8 +265,11 @@ img {
 
 }
 #department{
-  width: 393px;
+  width: 375px;
   height: 30px;
+  background: #fff;
+  border: 1px solid #cccccc;
+  border-radius: 2px;
 }
 .submit_btn {
   background: #1d79f2;
@@ -445,5 +450,28 @@ svg {
 
 .swal2-text{
   font-size: 20px;
+ 
+}
+.PhoneInputCountry {
+  position: relative;
+  display: inline-block;
+  line-height: 1;
+  text-align: center;
+}
+
+.PhoneInputCountryIcon {
+  display: inline-block;
+  width: 1.6em;
+  height: 1.6em;
+  background-size: contain;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+.PhoneInput{
+  width: 375px;
+  height: 30px;
+  background: #fff;
+  
+  
  
 }

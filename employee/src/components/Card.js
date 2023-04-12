@@ -2,6 +2,9 @@ import React from "react";
 import { useState } from "react";
 import Swal from "sweetalert2";
 import axios from "axios";
+import EditEmployee from "./EditEmployee";
+
+
 
 const Card = (props) => {
   const [selectedRows, setSelectedRows] = useState([]);
@@ -94,7 +97,10 @@ const Card = (props) => {
           id="delete_svg"
           onClick={handleDelete}
           disabled={selectedRows.length === 0}
+           
+        
         >
+          
           <svg
             xmlns="http://www.w3.org/2000/svg"
             height="48"
@@ -109,7 +115,7 @@ const Card = (props) => {
         <a className="selected" onClick={() => this.getSelectedRows()}>
           {selectedRows.length} Selected
         </a>
-       
+        <EditEmployee/>
         <a href="#" id="salary_svg">
           <svg
             xmlns="http://www.w3.org/2000/svg"
