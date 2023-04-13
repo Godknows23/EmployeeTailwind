@@ -1,5 +1,8 @@
 import axios from "axios";
 import React, {  useEffect, useState } from "react";
+import 'react-phone-number-input/style.css'
+import PhoneInput from 'react-phone-number-input'
+import flags from 'react-phone-number-input/flags'
 
 function EditEmployee(props) {
   const [showForm, setShowForm] = useState(false);
@@ -95,6 +98,7 @@ function EmployeeEditForm({employee, onEditEmployee, onSubmit }) {
   const [nationalId, setNationalId] = useState("");
   const [department, setDepartment] = useState("");
   const [date_of_birth, setDateofBirth] = useState("");
+  const [value, setValue] = useState()
 
   useEffect(() => {
     if (employee) {
@@ -173,16 +177,21 @@ function EmployeeEditForm({employee, onEditEmployee, onSubmit }) {
           />
         </div>
         <div>
-          <label htmlFor="phone">
+        <label htmlFor="phone">
             Phone:
             <br />
           </label>
-          <input
-            id="phone"
-            type="phone"
-            value={phone}
-            onChange={(event) => setPhone(event.target.value)}
-          />
+     <PhoneInput
+     defaultCountry="ZW"
+      placeholder=""
+      value={value}
+      flags={flags}
+      id="phone"
+      type="phone"      
+      onChange={setValue}
+      
+      />
+    
         </div>
         <div>
           <label htmlFor="email">

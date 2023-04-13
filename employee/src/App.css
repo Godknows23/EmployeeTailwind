@@ -183,19 +183,19 @@ img {
 .form {
   position: absolute;
   width: 470px;
-  height: 560px;
-  left: 830px;
+  height: 569px;
+  left: 828px;
   top: 0px;
   background: #ffffff;
   box-shadow: 0px 8px 24px rgba(149, 157, 165, 0.2);
-  left: 810px;
+  left: 796px;
   z-index: 999;
   
 }
 .loadingform {
   position: absolute;
-  width: 1000px;
-  height: 560px;
+  width: 990px;
+  height: 569px;
   left: -200px;
   top: 0px;
   background: #434459;
@@ -241,6 +241,7 @@ img {
   line-height: 22px;
   color: #0b0d26;
   margin-top: -5%;
+  
   /* border: 0.1px solid #0B0D26; */
 }
 #DOB,
@@ -262,6 +263,7 @@ img {
   align-content: center;
   font-size: 14px;
   padding: 10px;
+  margin-top: 2%;
 
 }
 #department{
@@ -270,6 +272,7 @@ img {
   background: #fff;
   border: 1px solid #cccccc;
   border-radius: 2px;
+  margin-top: 2%;
 }
 .submit_btn {
   background: #1d79f2;
@@ -457,21 +460,36 @@ svg {
   display: inline-block;
   line-height: 1;
   text-align: center;
+  width: 32px;
+  height: 32px;
+    
 }
 
 .PhoneInputCountryIcon {
-  display: inline-block;
-  width: 1.6em;
-  height: 1.6em;
-  background-size: contain;
-  background-position: center;
-  background-repeat: no-repeat;
+  width: 100%;
+  height: 100%;
+  margin-left: 2px;
+
+  
 }
 .PhoneInput{
   width: 375px;
-  height: 30px;
+  height: 32px;
   background: #fff;
-  
-  
+  margin-top: 2%;
+ 
  
 }
+
+.spinner{
+  justify-content: center;
+  display: grid;
+  align-items: center;
+  height: 350px;
+  margin-left: -880px;
+  margin-top: -300px;
+  font-size: 100px;
+  
+}
+ 
+ 

@@ -2,6 +2,8 @@ import axios from "axios";
 import React, { useState } from "react";
 import 'react-phone-number-input/style.css'
 import PhoneInput from 'react-phone-number-input'
+import flags from 'react-phone-number-input/flags'
+import Spinner from "./Spinner";
 
 
 // code Adding an Employee
@@ -10,14 +12,18 @@ function AddEmployee() {
   const [details, setEmployees] = useState([]);
   
 
+
   function handleAddEmployee(employee) {
     setEmployees([...details, employee]);
+   
     setShowForm(false);
+  
   };
   
   return (
     <div>
       <button onClick={() => setShowForm(true)}>Add Employee</button>  
+    
       {showForm && <EmployeeForm onAddEmployee={handleAddEmployee} />}
       <table>
         <thead>
@@ -52,10 +58,12 @@ function EmployeeForm() {
   const [nationalId, setNationalId] = useState("");
   const [department, setDepartment] = useState("");
   const [date_of_birth, setDateofBirth] = useState("");
+  let [loading, setLoading] = useState(true); 
+
 
   const postData = () => {
-    
-
+   
+   
     let options = {
       method: "POST",
       url: "http://localhost:3000/addemployees",
@@ -75,9 +83,11 @@ function EmployeeForm() {
       .request(options)
       .then(function (response) {
         console.log(response.data);
+        setLoading(false);
       })
       .catch(function (error) {
         console.error(error);
+     
       });
   };
  
@@ -87,6 +97,7 @@ function EmployeeForm() {
       <form className="form">
         <div>
           <h2>Add Employee</h2>
+          <br />
         </div>
         <div>
           <label htmlFor="name">
@@ -123,11 +134,13 @@ function EmployeeForm() {
      defaultCountry="ZW"
       placeholder=""
       value={value}
+      flags={flags}
       id="phone"
       type="phone"      
       onChange={setValue}
       
       />
+    
         </div>
         <div>
           <label htmlFor="email">
@@ -165,6 +178,7 @@ function EmployeeForm() {
             value={department}
             onChange={(event) => setDepartment(event.target.value)}
           >
+            <option value="">- Select Department - </option>
             <option value="Software Engineering">Software Engineering </option>
             <option value="DevOps">DevOps </option>
             <option value="Design">Design </option>
@@ -184,8 +198,11 @@ function EmployeeForm() {
           />
         </div>
         <button className="submit_btn" onClick={postData} type="submit">
-          Submit
-        </button>
+        Submit
+      </button>
+      <div className="spinner-container">
+      {loading && <Spinner />}
+      </div>
         <button className="clear_btn" type="submit">
           Cancel
         </button>
