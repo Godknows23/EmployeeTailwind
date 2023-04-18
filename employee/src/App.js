@@ -19,9 +19,11 @@ function App(){
       });
   }, []);
  
+  
   return(
     <div>
   <Employee details = {employeeArray}/>
+  
   
  <Card details = {employeeArray}/>
    </div>

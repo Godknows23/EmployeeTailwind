@@ -1,29 +1,26 @@
 import axios from "axios";
 import React, { useState } from "react";
-import 'react-phone-number-input/style.css'
-import PhoneInput from 'react-phone-number-input'
-import flags from 'react-phone-number-input/flags'
+import "react-phone-number-input/style.css";
+import PhoneInput from "react-phone-number-input";
+import flags from "react-phone-number-input/flags";
 import Spinner from "./Spinner";
 
-
 // code Adding an Employee
-function AddEmployee() {
+function AddEmployee(props) {
   const [showForm, setShowForm] = useState(false);
   const [details, setEmployees] = useState([]);
   
 
-
   function handleAddEmployee(employee) {
     setEmployees([...details, employee]);
-   
+
     setShowForm(false);
-  
-  };
-  
+  }
+
   return (
     <div>
-      <button onClick={() => setShowForm(true)}>Add Employee</button>  
-    
+      <button onClick={() => setShowForm(true)}>Add Employee</button>
+
       {showForm && <EmployeeForm onAddEmployee={handleAddEmployee} />}
       <table>
         <thead>
@@ -39,31 +36,26 @@ function AddEmployee() {
               <td>{data.nationalId}</td>
               <td>{data.department}</td>
               <td>{data.date_of_birth}</td>
-              
-              
             </tr>
-            
           ))}
-              </tbody> 
+        </tbody>
       </table>
     </div>
   );
 }
 
 function EmployeeForm() {
+ 
   const [name, setName] = useState("");
   const [surname, setSurname] = useState("");
-  const [value, setValue] = useState()
+  const [value, setValue] = useState();
   const [email, setEmail] = useState("");
   const [nationalId, setNationalId] = useState("");
   const [department, setDepartment] = useState("");
   const [date_of_birth, setDateofBirth] = useState("");
-  let [loading, setLoading] = useState(true); 
-
+  let [loading, setLoading] = useState(true);
 
   const postData = () => {
-   
-   
     let options = {
       method: "POST",
       url: "http://localhost:3000/addemployees",
@@ -87,10 +79,8 @@ function EmployeeForm() {
       })
       .catch(function (error) {
         console.error(error);
-     
       });
   };
- 
 
   return (
     <>
@@ -123,24 +113,20 @@ function EmployeeForm() {
           />
         </div>
 
-        <div>    
-      
-
+        <div>
           <label htmlFor="phone">
             Phone:
             <br />
           </label>
-     <PhoneInput
-     defaultCountry="ZW"
-      placeholder=""
-      value={value}
-      flags={flags}
-      id="phone"
-      type="phone"      
-      onChange={setValue}
-      
-      />
-    
+          <PhoneInput
+            defaultCountry="ZW"
+            placeholder=""
+            value={value}
+            flags={flags}
+            id="phone"
+            type="phone"
+            onChange={setValue}
+          />
         </div>
         <div>
           <label htmlFor="email">
@@ -184,7 +170,7 @@ function EmployeeForm() {
             <option value="Design">Design </option>
           </select>
         </div>
-        
+
         <div>
           <label htmlFor="dob">
             D.O.B:
@@ -198,11 +184,9 @@ function EmployeeForm() {
           />
         </div>
         <button className="submit_btn" onClick={postData} type="submit">
-        Submit
-      </button>
-      <div className="spinner-container">
-      {loading && <Spinner />}
-      </div>
+          Submit
+        </button>
+        <div className="spinner-container">{loading && <Spinner />}</div>
         <button className="clear_btn" type="submit">
           Cancel
         </button>

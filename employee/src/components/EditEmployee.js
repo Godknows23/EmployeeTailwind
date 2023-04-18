@@ -1,21 +1,28 @@
 import axios from "axios";
-import React, {  useEffect, useState } from "react";
-import 'react-phone-number-input/style.css'
-import PhoneInput from 'react-phone-number-input'
-import flags from 'react-phone-number-input/flags'
+import React, { useEffect, useState } from "react";
+import "react-phone-number-input/style.css";
+import PhoneInput from "react-phone-number-input";
+import flags from "react-phone-number-input/flags";
+
 
 function EditEmployee(props) {
   const [showForm, setShowForm] = useState(false);
   const [details, setEmployees] = useState([]);
   const [selectedRows, setSelectedRows] = useState([]);
 
+  const setData = (details) => {
+    console.log(details);
+  };
   
 
-  function handleEditEmployee(employee) {
-    setEmployees([...details, employee]);
+  function handleEditEmployee(updatedEmployee) {
+    setEmployees((prevDetails) =>
+      prevDetails.map((employee) =>
+        employee._id === updatedEmployee._id ? updatedEmployee : employee
+      )
+    );
     setShowForm(false);
   }
- 
 
   function handleSubmit(event) {
     event.preventDefault();
@@ -32,49 +39,49 @@ function EditEmployee(props) {
   return (
     <div>
       <a
-  href="edit"
-  id="edit_svg"
-  onClick={(event) => {
-    event.preventDefault();
-    if (selectedRows) {
-      setShowForm(true);
-    }
-  }}
->
-  <svg
-    xmlns="http://www.w3.org/2000/svg"
-    height="48"
-    viewBox="0 96 960 960"
-    width="48"
-  >
-    <path d="M180 876h44l443-443-44-44-443 443v44Zm614-486L666 262l42-42q17-17 42-17t42 17l44 44q17 17 17 42t-17 42l-42 42Zm-42 42L248 936H120V808l504-504 128 128Zm-107-21-22-22 44 44-22-22Z" />
-  </svg>
-  Edit
-</a>
-{showForm && (
-    <EmployeeEditForm
-      employee={selectedRows}
-      onEditEmployee={handleEditEmployee}
-      onSubmit={handleSubmit}
-    />
-  )}
+        href="edit"
+        id="edit_svg"
+        onClick={(event) => {
+          event.preventDefault();
+          setData(details);
+          if (selectedRows) {
+            setShowForm(true);
+          }
+        }}
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          height="48"
+          viewBox="0 96 960 960"
+          width="48"
+        >
+          <path d="M180 876h44l443-443-44-44-443 443v44Zm614-486L666 262l42-42q17-17 42-17t42 17l44 44q17 17 17 42t-17 42l-42 42Zm-42 42L248 936H120V808l504-504 128 128Zm-107-21-22-22 44 44-22-22Z" />
+        </svg>
+        Edit
+      </a>
+      {showForm && (
+        <EmployeeEditForm
+          employee={details}
+          onEditEmployee={handleEditEmployee}
+          onSubmit={handleSubmit}
+        />
+      )}
       <table>
         <thead>
           <tr></tr>
         </thead>
         <tbody>
-       
           {details.map((data) => (
             <tr key={data.id}>
               <td>
-                  <input
-                    type="checkbox"
-                    checked={selectedRows.some((r) => r._id === data._id)}
-                    onChange={(event) => {
-                      handleCheckboxChange(event, data);
-                    }}
-                  />
-                </td>
+                <input
+                  type="checkbox"
+                  checked={selectedRows.some((r) => r._id === data._id)}
+                  onChange={(event) => {
+                    handleCheckboxChange(event, data);
+                  }}
+                />
+              </td>
               <td>{data.name}</td>
               <td>{data.surname}</td>
               <td>{data.phone}</td>
@@ -90,7 +97,7 @@ function EditEmployee(props) {
   );
 }
 
-function EmployeeEditForm({employee, onEditEmployee, onSubmit }) {
+function EmployeeEditForm({ employee, onEditEmployee, onSubmit }) {
   const [name, setName] = useState("");
   const [surname, setSurname] = useState("");
   const [phone, setPhone] = useState("");
@@ -98,27 +105,38 @@ function EmployeeEditForm({employee, onEditEmployee, onSubmit }) {
   const [nationalId, setNationalId] = useState("");
   const [department, setDepartment] = useState("");
   const [date_of_birth, setDateofBirth] = useState("");
-  const [value, setValue] = useState()
+  const [value, setValue] = useState();
+  const [_id, setID] = useState(null);
+  
 
   useEffect(() => {
-    if (employee) {
-      setName(employee.name);
-      setSurname(employee.surname);
-      setPhone(employee.phone);
-      setEmail(employee.email);
-      setNationalId(employee.nationalId);
-      setDepartment(employee.department);
-      setDateofBirth(employee.date_of_birth);
-    }
-  }, [employee]);
+    setID(localStorage.getItem("_id"));
+    setName(localStorage.getItem("name"));
+    setSurname(localStorage.getItem("surname"));
+    setPhone(localStorage.getItem("phone"));
+    setEmail(localStorage.getItem("email"));
+    setNationalId(localStorage.getItem("nationalId"));
+    setDepartment(localStorage.getItem("department"));
+    setDateofBirth(localStorage.getItem("date_of_birth"));
+  }, []);
+  // useEffect(() => {
+  //   if (employee) {
+  //     setName(employee.name);
+  //     setSurname(employee.surname);
+  //     setPhone(employee.phone);
+  //     setEmail(employee.email);
+  //     setNationalId(employee.nationalId);
+  //     setDepartment(employee.department);
+  //     setDateofBirth(employee.date_of_birth);
+  //   }
+  // }, [employee]);
 
   // ...
-
 
   const putData = () => {
     let options = {
       method: "PUT",
-      url: `http://localhost:3000/employees/${employee._id}`,
+      url: `http://localhost:3000/employees/${_id}`,
       headers: { "Content-Type": "application/json" },
       data: {
         name,
@@ -133,22 +151,16 @@ function EmployeeEditForm({employee, onEditEmployee, onSubmit }) {
     axios(options)
       .then((response) => {
         onEditEmployee(response.data);
+       
       })
       .catch((error) => {
         console.log(error);
       });
-    setName("");
-    setSurname("");
-    setPhone("");
-    setEmail("");
-    setNationalId("");
-    setDepartment("");
-    setDateofBirth("");
+    
   };
 
   return (
     <>
-    
       <form className="form" onSubmit={onSubmit}>
         <div>
           <h2>Edit Employee</h2>
@@ -177,21 +189,19 @@ function EmployeeEditForm({employee, onEditEmployee, onSubmit }) {
           />
         </div>
         <div>
-        <label htmlFor="phone">
+          <label htmlFor="phone">
             Phone:
             <br />
           </label>
-     <PhoneInput
-     defaultCountry="ZW"
-      placeholder=""
-      value={value}
-      flags={flags}
-      id="phone"
-      type="phone"      
-      onChange={setValue}
-      
-      />
-    
+          <PhoneInput
+            defaultCountry="ZW"
+            placeholder=""
+            value={phone}
+            flags={flags}
+            id="phone"
+            type="phone"
+            onChange={setValue}
+          />
         </div>
         <div>
           <label htmlFor="email">
@@ -235,7 +245,7 @@ function EmployeeEditForm({employee, onEditEmployee, onSubmit }) {
             <option value="Design">Design </option>
           </select>
         </div>
-        
+
         <div>
           <label htmlFor="dob">
             D.O.B:

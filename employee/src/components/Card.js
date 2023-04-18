@@ -3,38 +3,50 @@ import { useState } from "react";
 import Swal from "sweetalert2";
 import axios from "axios";
 import EditEmployee from "./EditEmployee";
-
-
+import { Link } from 'react-router-dom';
+import AddSalary from "./AddSalary";
 
 const Card = (props) => {
   const [selectedRows, setSelectedRows] = useState([]);
 
   const handleDelete = async () => {
     try {
+    for (const row of selectedRows){
       const response = await axios.delete(
-        `http://localhost:3000/deleteemployees/${selectedRows[0]._id}`
+        `http://localhost:3000/deleteemployees/${row._id}`
       );
       console.log(response.data);
+    }
       setSelectedRows([]);
+
       Swal.fire({
-        title: `Delete ${selectedRows.length} Employees`,
-        text: "Are you sure you want to delete this record ?",
+        title: selectedRows.length > 1 ? `Delete ${selectedRows.length} Employees` : `Delete ${selectedRows.map(row => row.name + ' ' + row.surname).join(', ')}?`,
+        text: selectedRows.length > 1 ? `These employees and their data will be permanently deleted `: `Are you sure you want to delete this record ?`,
+        input: selectedRows.length > 1 ? 'text' : undefined,
+        inputPlaceholder: selectedRows.length > 1 ? 'Type "delete" to confirm' : undefined,
+      
         showCancelButton: true,
         confirmButtonText: "Delete",
-        cancelButtonText: "No, cancel!",
+        cancelButtonText: "Cancel",
         reverseButtons: true,
+        preConfirm: (value) => {
+          if (selectedRows.length > 1 && value !== 'delete') {
+            Swal.showValidationMessage('Please type "delete" to confirm');
+            return false;
+          }
+          return true;
+        }
       }).then((result) => {
         if (result.isConfirmed) {
           // User clicked the "Yes, delete it!" button
           // Perform the delete operation here
           Swal.fire(
-            'Deleted!',
-            'The Selected Employee has been deleted.',
-            'success'
+            "Deleted!",
+            "The Selected Employee has been deleted.",
+            "success"
           ).then(() => {
             window.location.reload();
           });
-  
         } else if (result.dismiss === Swal.DismissReason.cancel) {
           // User clicked the "No, cancel!" button
           console.log("Delete operation cancelled!");
@@ -51,6 +63,7 @@ const Card = (props) => {
       setSelectedRows(selectedRows.filter((r) => r._id !== row._id));
     }
   };
+
   if (props.details && props.details.length > 0) {
     return (
       <div>
@@ -97,10 +110,7 @@ const Card = (props) => {
           id="delete_svg"
           onClick={handleDelete}
           disabled={selectedRows.length === 0}
-           
-        
         >
-          
           <svg
             xmlns="http://www.w3.org/2000/svg"
             height="48"
@@ -115,20 +125,11 @@ const Card = (props) => {
         <a className="selected" onClick={() => this.getSelectedRows()}>
           {selectedRows.length} Selected
         </a>
-        <EditEmployee/>
-        <a href="#" id="salary_svg">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            height="24px"
-            viewBox="0 0 24 24"
-            width="24px"
-            fill="#000000"
-          >
-            <path d="M0 0h24v24H0V0z" fill="none" />
-            <path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z" />
-          </svg>
-          Add Salary
-        </a>
+        <EditEmployee
+          selectedRows={selectedRows}
+        
+        />
+       <AddSalary/>
       </div>
     );
   } else {
@@ -142,4 +143,3 @@ const Card = (props) => {
 };
 
 export default Card;
-
