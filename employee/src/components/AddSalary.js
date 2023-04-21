@@ -24,7 +24,9 @@ const AddSalary = (props) => {
    <div>
    <a href="addSalary"
     id="salary_svg"
-    onClick={() => setShowForm(true)}>
+    onClick={() => setShowForm(true)
+    
+     }>
           <svg
             xmlns="http://www.w3.org/2000/svg"
             height="24px"

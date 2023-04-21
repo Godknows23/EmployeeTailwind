@@ -3,7 +3,6 @@ import { useState } from "react";
 import Swal from "sweetalert2";
 import axios from "axios";
 import EditEmployee from "./EditEmployee";
-import { Link } from 'react-router-dom';
 import AddSalary from "./AddSalary";
 
 const Card = (props) => {
@@ -81,7 +80,7 @@ const Card = (props) => {
             </tr>
           </thead>
           <tbody>
-            {props.details.map((row) => (
+            {props.details.map((row) => ( 
               <tr key={row._id}>
                 <td>
                   <input
@@ -121,15 +120,16 @@ const Card = (props) => {
           </svg>
           Delete
         </a>
+       
 
         <a className="selected" onClick={() => this.getSelectedRows()}>
           {selectedRows.length} Selected
         </a>
-        <EditEmployee
-          selectedRows={selectedRows}
+        <AddSalary details = {props.employeeArray}/> 
+      
+       
         
-        />
-       <AddSalary/>
+      
       </div>
     );
   } else {

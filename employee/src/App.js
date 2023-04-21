@@ -2,6 +2,8 @@ import React, {useState , useEffect } from "react"
 import './App.css';
 import Employee from "./pages/Employee";
 import Card from "./components/Card";
+import AddSalary from "./components/AddSalary";
+import EditEmployee from "./components/EditEmployee";
 
 function App(){
   const [employeeArray , setEmployeeArray] = useState([]);
@@ -23,9 +25,8 @@ function App(){
   return(
     <div>
   <Employee details = {employeeArray}/>
-  
-  
- <Card details = {employeeArray}/>
+  <Card details = {employeeArray}/>
+  <EditEmployee details={employeeArray}/>
    </div>
     
     )
